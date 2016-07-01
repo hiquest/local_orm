@@ -9,7 +9,7 @@ const types = {
   boolean: "#{TYPE_PREFIX}_BOOLEAN"
 }
 
-let validations = {};
+const validations = {};
 
 function define({name: name, schema: schema}) {
   let table_key = (name) => "#{name}_#{name}";
@@ -23,18 +23,17 @@ function define({name: name, schema: schema}) {
     return window.localStorage[table_key(table_name)] = JSON.stringify(entities);
   }
 
-  let out = {};
-  let entity_types = Object.keys(schema);
-  entity_types.forEach((name) => {
-    const config = schema[name];
-    const fields = Object.keys(config);
+  return _.reduce(Object.keys(schema), (memo, tableName) => {
+    const tableConfig = schema[tableName];
+
+    const fields = Object.keys(tableConfig);
 
     const all = () => loadTable(name);
 
     const setDefaultValues = (entity) => {
       fields.forEach( (k) => {
-        if (!entity[k] && !_.isUndefined(config[k].defaultVal)) {
-          entity[k] = config[k].defaultVal;
+        if (!entity[k] && !_.isUndefined(tableConfig[k].defaultVal)) {
+          entity[k] = tableConfig[k].defaultVal;
         };
       });
       return entity;
@@ -107,18 +106,16 @@ function define({name: name, schema: schema}) {
     };
 
     const where = (filters) => {
-      let entities = loadTable(name);
-      return _.filter(entities, filters);
+      return _.filter(loadTable(name), filters);
     };
 
-    out[name] = { save, find, destroy, all, where };
-  });
-  return out;
-
-}
+    memo[tableName] = { save, find, destroy, all, where };
+    return memo;
+  }, {});
+};
 
 module.exports = {
-  validations: validations,
   define: define,
+  validations: validations,
   types: types
 };
