@@ -1,0 +1,19 @@
+{
+  "name": "local_orm",
+  "version": "1.0.0",
+  "description": "Tiny ORM-like wrapper on top of localStorage ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "orm",
+    "localStorage"
+  ],
+  "author": "Yanis",
+  "license": "ISC",
+  "dependencies": {
+    "node-uuid": "^1.4.7",
+    "underscore": "^1.8.3"
+  }
+}
