@@ -4,7 +4,7 @@
   "description": "Tiny ORM-like wrapper on top of localStorage ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start"
   },
   "keywords": [
     "orm",
@@ -15,5 +15,14 @@
   "dependencies": {
     "node-uuid": "^1.4.7",
     "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "jasmine-core": "^2.4.1",
+    "karma": "^1.1.0",
+    "karma-browserify": "^5.0.5",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "watchify": "^3.7.0"
   }
 }

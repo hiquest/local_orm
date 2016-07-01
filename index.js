@@ -1,6 +1,8 @@
 const uuid = require('node-uuid');
 const _    = require('underscore');
 
+const validations = require('./validations')
+
 const TYPE_PREFIX = "RELATIVE_STORE";
 
 const types = {
@@ -8,8 +10,6 @@ const types = {
   integer: "#{TYPE_PREFIX}_INTEGER",
   boolean: "#{TYPE_PREFIX}_BOOLEAN"
 }
-
-const validations = {};
 
 function define({name: name, schema: schema}) {
   let table_key = (name) => "#{name}_#{name}";
