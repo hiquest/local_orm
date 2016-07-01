@@ -45,4 +45,30 @@ const minLength = (min) => {
   };
 };
 
-module.exports = { requireBoolean, requireInteger, requireString, maxLength, minLength };
+// Composite or
+// Usage:
+//   let outerRange = or(minLength(10), maxLength(2));
+const or = (v1, v2) => {
+  return (val) => {
+    let [err1, valid1] = v1(val);
+    if (valid1) {
+      return [null, true];
+    };
+
+    let [err2, valid2] = v2(val);
+    if (valid2) {
+      return [null, true];
+    }
+
+    return [`${err1}, ${err2}`, false];
+  };
+};
+
+module.exports = {
+  requireBoolean,
+  requireInteger,
+  requireString,
+  maxLength,
+  minLength,
+  or
+};

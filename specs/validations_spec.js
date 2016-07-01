@@ -95,3 +95,16 @@ describe("Validations",() => {
   });
 
 });
+
+describe("Composite or validation", () => {
+  it("should work correctly", () => {
+    outerRange = v.or(v.minLength(10), v.maxLength(4));
+
+    let [err, valid] = outerRange("hello");
+    expect(valid).toBe(false);
+    expect(err).toBeTruthy();
+
+    [err, valid] = outerRange("hello, my name is very long");
+    expect(valid).toBe(true);
+  });
+});
