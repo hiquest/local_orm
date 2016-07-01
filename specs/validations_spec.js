@@ -56,4 +56,24 @@ describe("Validations",() => {
     });
   });
 
+  describe("maxLength", () => {
+    it("should work correctly", () => {
+      const max10 = v.maxLength(10);
+      let [err, valid] = max10("hello");
+      expect(valid).toBe(true);
+      expect(err).toBeFalsy();
+
+      [err, valid] = max10("hello, my name is very long");
+      expect(valid).toBe(false);
+      expect(err).toBeTruthy();
+
+      [err, valid] = max10("0123456789");
+      expect(valid).toBe(true);
+      expect(err).toBeFalsy();
+
+      [err, valid] = max10(123);
+      expect(valid).toBe(false);
+    });
+  });
+
 });

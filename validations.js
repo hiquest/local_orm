@@ -17,4 +17,18 @@ const requireBoolean = wrap(_.isBoolean, "should be a boolean");
 const requireString  = wrap(_.isString, "should be a string");
 const requireInteger = wrap(Number.isInteger, "should be an integer");
 
-module.exports = { requireBoolean, requireInteger, requireString };
+const maxLength = (max) => {
+  return (val) => {
+    if (val.length) {
+      if (val.length > max) {
+        return ["max length exceeded", false];
+      } else {
+        return [null, true];
+      };
+    } else {
+      return ["can't limit a max length: length is udnefined", false];
+    };
+  };
+};
+
+module.exports = { requireBoolean, requireInteger, requireString, maxLength };
