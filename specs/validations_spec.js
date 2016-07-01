@@ -120,7 +120,6 @@ describe("#run", () => {
     expect(errors.length).toBe(1);
 
     [errors, valid] = v.run("pass", validations);
-    console.log(errors);
     expect(errors.length).toBe(0);
   });
 });
