@@ -1,6 +1,8 @@
 // Validation is a function that takes a single value,
 // and returns an array of error and validity.
 
+// TODO: implement present, min, max, oneOf
+
 const _ = require('underscore');
 
 const wrap = (fn, err) => {
@@ -64,11 +66,24 @@ const or = (v1, v2) => {
   };
 };
 
+// Runs a value over a list of validations
+const run = (val, validations) => {
+  return _.reduce(validations, (memo, validation) => {
+    const [err, valid] = validation(val);
+    if (!valid) {
+      memo[0].push(err);
+      memo[1] = false;
+    }
+    return memo;
+  }, [ [], true ]);
+};
+
 module.exports = {
   requireBoolean,
   requireInteger,
   requireString,
   maxLength,
   minLength,
-  or
+  or,
+  run
 };

@@ -1,7 +1,6 @@
 const { validations: v } = require("../index");
 
 describe("Validations",() => {
-
   describe("requireBoolean", () => {
     it("should work correctly", () => {
       const testBool = (val) => {
@@ -63,7 +62,7 @@ describe("Validations",() => {
       expect(valid).toBe(true);
       expect(err).toBeFalsy();
 
-      [err, valid] = max10("hello, my name is very long");
+      [err, valid] = max10("this is a too long string");
       expect(valid).toBe(false);
       expect(err).toBeTruthy();
 
@@ -83,7 +82,7 @@ describe("Validations",() => {
       expect(valid).toBe(false);
       expect(err).toBeTruthy();
 
-      [err, valid] = min10("hello, my name is very long");
+      [err, valid] = min10("this is a too long string");
       expect(valid).toBe(true);
 
       [err, valid] = min10("0123456789");
@@ -93,7 +92,6 @@ describe("Validations",() => {
       expect(valid).toBe(false);
     });
   });
-
 });
 
 describe("Composite or validation", () => {
@@ -104,7 +102,25 @@ describe("Composite or validation", () => {
     expect(valid).toBe(false);
     expect(err).toBeTruthy();
 
-    [err, valid] = outerRange("hello, my name is very long");
+    [err, valid] = outerRange("this is a too long string");
     expect(valid).toBe(true);
+  });
+});
+
+describe("#run", () => {
+  it("should work correctly", () => {
+    const validations = [v.requireString, v.maxLength(10)];
+
+    let [errors, valid] = v.run(4, validations);
+    expect(valid).toBe(false);
+    expect(errors.length).toBe(2);
+
+    [errors, valid] = v.run("this is a too long string", validations);
+    expect(valid).toBe(false);
+    expect(errors.length).toBe(1);
+
+    [errors, valid] = v.run("pass", validations);
+    console.log(errors);
+    expect(errors.length).toBe(0);
   });
 });
