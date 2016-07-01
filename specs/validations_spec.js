@@ -76,4 +76,22 @@ describe("Validations",() => {
     });
   });
 
+  describe("minLength", () => {
+    it("should work correctly", () => {
+      const min10 = v.minLength(10);
+      let [err, valid] = min10("hello");
+      expect(valid).toBe(false);
+      expect(err).toBeTruthy();
+
+      [err, valid] = min10("hello, my name is very long");
+      expect(valid).toBe(true);
+
+      [err, valid] = min10("0123456789");
+      expect(valid).toBe(true);
+
+      [err, valid] = min10(123);
+      expect(valid).toBe(false);
+    });
+  });
+
 });
