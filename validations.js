@@ -28,10 +28,10 @@ const maxLength = (max) => {
         return ["max length exceeded", false];
       } else {
         return [null, true];
-      };
+      }
     } else {
       return ["can't limit a max length: length is undefined", false];
-    };
+    }
   };
 };
 
@@ -42,7 +42,7 @@ const minLength = (min) => {
         return ["min length exceeded", false];
       } else {
         return [null, true];
-      };
+      }
     } else {
       return ["can't limit a min length: length is undefined", false];
     };
@@ -57,7 +57,7 @@ const or = (v1, v2) => {
     let [err1, valid1] = v1(val);
     if (valid1) {
       return [null, true];
-    };
+    }
 
     let [err2, valid2] = v2(val);
     if (valid2) {
