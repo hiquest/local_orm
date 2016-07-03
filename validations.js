@@ -1,7 +1,7 @@
 // Validation is a function that takes a single value,
 // and returns an array of error and validity.
 
-// TODO: implement present, min, max, oneOf
+// TODO: implement min, max, oneOf
 
 const _ = require('underscore');
 
@@ -18,6 +18,8 @@ const wrap = (fn, err) => {
 const requireBoolean = wrap(_.isBoolean, "should be a boolean");
 const requireString  = wrap(_.isString, "should be a string");
 const requireInteger = wrap(Number.isInteger, "should be an integer");
+
+const present = wrap((val) => !!val, "should be present");
 
 const maxLength = (max) => {
   return (val) => {
@@ -82,6 +84,7 @@ module.exports = {
   requireBoolean,
   requireInteger,
   requireString,
+  present,
   maxLength,
   minLength,
   or,

@@ -55,6 +55,19 @@ describe("Validations",() => {
     });
   });
 
+  describe("present", () => {
+    it("should work correctly", () => {
+      let [err, valid] = v.present("");
+      expect(valid).toBe(false);
+      [err, valid] = v.present("hello");
+      expect(valid).toBe(true);
+      [err, valid] = v.present(1);
+      expect(valid).toBe(true);
+      [err, valid] = v.present(null);
+      expect(valid).toBe(false);
+    });
+  });
+
   describe("maxLength", () => {
     it("should work correctly", () => {
       const max10 = v.maxLength(10);
