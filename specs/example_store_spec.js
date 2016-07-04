@@ -31,10 +31,28 @@ describe("An example store",() => {
     });
 
     it("not allows invalid entities", () => {
-      let [errors, valid] = Store.books.validate({});
+      let book = {};
+      let [errors, valid] = Store.books.validate(book);
       expect(valid).toBe(false);
       expect(errors['title']).toEqual(
         [ "should be present" ]
+      );
+
+      book = {
+        year: "1995",
+        title: 'This is a way too long title, you really should not call the books like that',
+        genre: 'sci-fi'
+      };
+      [errors, valid] = Store.books.validate(book);
+      expect(valid).toBe(false);
+      expect(errors['year']).toEqual(
+        [ "should be an integer" ]
+      );
+      expect(errors['title']).toEqual(
+        [ "max length exceeded" ]
+      );
+      expect(errors['genre']).toEqual(
+        [ "should be one of [fiction,non-fiction]" ]
       );
     });
   });

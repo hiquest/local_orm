@@ -2,10 +2,13 @@
 const uuid = require('node-uuid');
 const _    = require('underscore');
 
-const TYPE_PREFIX = "RELATIVE_STORE";
+const t = require('./types');
+const v = require('./validations');
+
+const PREFIX = "LOCAL_ORM";
 
 const define = ({name: name, schema: schema}) => {
-  let table_key = (name) => "#{name}_#{name}";
+  let table_key = (name) => `${PREFIX}_${name}`;
 
   const loadTable = (table_name) => {
     let s = window.localStorage[table_key(table_name)];
@@ -32,11 +35,28 @@ const define = ({name: name, schema: schema}) => {
       return entity;
     };
 
+    const addTypeValidation = (validations, type) => {
+      let out = _.clone(validations);
+      if (type === t.string) {
+        out.unshift(v.requireString);
+      } else if (type === t.integer) {
+        out.unshift(v.requireInteger);
+      } else if (type === t.boolean) {
+        out.unshift(v.requireBoolean);
+      } else {
+        throw "Unsupported type";
+      }
+      return out;
+    };
+
+    // Exposed
+
     const validate = (oldEnt) => {
       let ent = setDefaultValues(oldEnt);
 
       const errors = _.reduce(fields, (memo, field) => {
         let validations = tableConfig[field]['validations'] || [];
+        validations = addTypeValidation(validations, tableConfig[field]['type']);
         let fieldErrors = validations.map((validator) => {
           let [err, valid] = validator(ent[field]);
           return err;
@@ -59,7 +79,7 @@ const define = ({name: name, schema: schema}) => {
 
     const create = (ent) => {
       ent.id = uuid.v1();
-      [err, valid] = isValid(ent);
+      [err, valid] = validate(ent);
       if (valid) {
         let entities = all();
         entities.push(ent);
@@ -71,7 +91,7 @@ const define = ({name: name, schema: schema}) => {
     };
 
     const update = (ent) => {
-      [err, valid] = isValid(ent);
+      [err, valid] = validate(ent);
       if (valid) {
         let entities = all();
         const ind = _.findIndex(entities, { id: ent.id });

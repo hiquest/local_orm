@@ -14,7 +14,7 @@ describe("Validations",() => {
       expect(testBool([])).toBe(false);
       expect(testBool("str")).toBe(false);
       expect(testBool(null)).toBe(false);
-      expect(testBool(undefined)).toBe(false);
+      expect(testBool(undefined)).toBe(true);
     });
   });
 
@@ -32,7 +32,7 @@ describe("Validations",() => {
       expect(test([])).toBe(false);
       expect(test("str")).toBe(false);
       expect(test(null)).toBe(false);
-      expect(test(undefined)).toBe(false);
+      expect(test(undefined)).toBe(true);
     });
   });
 
@@ -51,14 +51,14 @@ describe("Validations",() => {
       expect(test("str")).toBe(true);
       expect(test("")).toBe(true);
       expect(test(null)).toBe(false);
-      expect(test(undefined)).toBe(false);
+      expect(test(undefined)).toBe(true);
     });
   });
 
   describe("present", () => {
     it("should work correctly", () => {
       let [err, valid] = v.present("");
-      expect(valid).toBe(false);
+      expect(valid).toBe(true);
       [err, valid] = v.present("hello");
       expect(valid).toBe(true);
       [err, valid] = v.present(1);
