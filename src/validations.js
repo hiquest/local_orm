@@ -23,6 +23,10 @@ const present = wrap((val) => !!val, "should be present");
 
 const maxLength = (max) => {
   return (val) => {
+    if (_.isUndefined(val)) {
+      return [null, true];
+    }
+
     if (val.length) {
       if (val.length > max) {
         return ["max length exceeded", false];
@@ -37,7 +41,11 @@ const maxLength = (max) => {
 
 const minLength = (min) => {
   return (val) => {
-    if (val.length) {
+    if (_.isUndefined(val)) {
+      return [null, true];
+    }
+
+    if (val && val.length) {
       if (val.length < min) {
         return ["min length exceeded", false];
       } else {

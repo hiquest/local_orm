@@ -30,10 +30,31 @@ const define = ({name: name, schema: schema}) => {
         };
       });
       return entity;
-    }
+    };
 
-    const isValid = (ent) => {
-      return [null, true];
+    const validate = (oldEnt) => {
+      let ent = setDefaultValues(oldEnt);
+
+      const errors = _.reduce(fields, (memo, field) => {
+        let validations = tableConfig[field]['validations'] || [];
+        let fieldErrors = validations.map((validator) => {
+          let [err, valid] = validator(ent[field]);
+          return err;
+        });
+        fieldErrors = _.filter(fieldErrors, (x) => x !== null);
+        if (fieldErrors.length > 0 ) {
+          memo[field] = fieldErrors;
+        }
+        return memo;
+      }, {});
+
+      const valid = _.reduce(
+        _.pairs(errors),
+        (memo, val) => { return memo && (val[1].length === 0) }
+        , true
+      );
+
+      return [errors, valid];
     }
 
     const create = (ent) => {
@@ -102,7 +123,7 @@ const define = ({name: name, schema: schema}) => {
       return _.filter(loadTable(name), filters);
     };
 
-    memo[tableName] = { save, find, destroy, all, where };
+    memo[tableName] = { save, find, destroy, all, where, validate };
     return memo;
   }, {});
 };
