@@ -80,7 +80,7 @@ let books = Store.books.all();
 let books = Store.books.where({title: 'War And Peace'});
 
 // Function is also accepted
-let books = Store.books.where(function(b) { return b.year > 1980 });
+let books = Store.books.where((b) => b.year > 1980);
 ```
 
 Contributing
