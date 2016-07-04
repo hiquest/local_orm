@@ -129,6 +129,19 @@ describe("Validations",() => {
       expect(valid).toBe(false);
     });
   });
+
+  describe("oneOf", () => {
+    it("should work correctly", () => {
+      const oneOf = v.oneOf('test', 'live');
+      let [err, valid] = oneOf("hello");
+      expect(valid).toBe(false);
+      expect(err).toBeTruthy();
+      [err, valid] = oneOf('test');
+      expect(valid).toBe(true);
+      [err, valid] = oneOf('live');
+      expect(valid).toBe(true);
+    });
+  });
 });
 
 describe("Composite or validation", () => {

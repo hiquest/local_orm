@@ -69,6 +69,16 @@ const max = (max) => {
   };
 };
 
+const oneOf = (...args) => {
+  return (val) => {
+    if ((args || []).indexOf(val) > -1) {
+      return [null, true];
+    } else {
+      return [`should be one of [${args}]`, false]
+    };
+  };
+};
+
 // Composite or
 // Usage:
 //   let outerRange = or(minLength(10), maxLength(2));
@@ -109,6 +119,7 @@ module.exports = {
   max,
   maxLength,
   minLength,
+  oneOf,
   or,
   run
 };
