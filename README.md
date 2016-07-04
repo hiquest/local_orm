@@ -12,7 +12,7 @@ Features
 
 Usage
 ======
-First of all, let's define a schema (yes, we have a schema):
+Define a schema (yes, we call it a schema):
 
 ```javascript
 const { define: define, types: t, validations: v } = require("../index");
@@ -38,7 +38,13 @@ const Store = define({
   }
 });
 
-// Let's create a book
+```
+
+Let's save some books.
+
+```javascript
+
+// Create a book
 let [err, book] = Store.books.create({ title: "War And Peace" });
 console.log(book);
 // => { id: "0326d5ce-d3db-4bf7-853f-37d4d5adf6a8", title: "War And Peace", genre: 'fiction' }
@@ -58,11 +64,19 @@ let [err, book] = Store.books.create({ title: "So Long, and Thanks for all the F
 We can also load books from localStorage now.
 
 ```javascript
+// Find a book by id
 let book = Store.books.find(id);
 
+// Load all books
 let books = Store.books.all();
 
+// Filter by title
 let books = Store.books.where({title: 'War And Peace'});
 
+// Function is also accepted
 let books = Store.books.where(function(b) { return b.year > 1980 });
 ```
+
+Contributing
+======
+Yes, please.
