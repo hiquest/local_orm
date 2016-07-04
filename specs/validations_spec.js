@@ -68,6 +68,30 @@ describe("Validations",() => {
     });
   });
 
+  describe("min", () => {
+    it("should work correctly", () => {
+      const min5 = v.min(5);
+      let [err, valid] = min5(0);
+      expect(valid).toBe(false);
+      [err, valid] = min5(10);
+      expect(valid).toBe(true);
+      [err, valid] = min5(5);
+      expect(valid).toBe(true);
+    });
+  });
+
+  describe("max", () => {
+    it("should work correctly", () => {
+      const max5 = v.max(5);
+      let [err, valid] = max5(0);
+      expect(valid).toBe(true);
+      [err, valid] = max5(10);
+      expect(valid).toBe(false);
+      [err, valid] = max5(5);
+      expect(valid).toBe(true);
+    });
+  });
+
   describe("maxLength", () => {
     it("should work correctly", () => {
       const max10 = v.maxLength(10);

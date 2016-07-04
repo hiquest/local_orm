@@ -49,6 +49,26 @@ const minLength = (min) => {
   };
 };
 
+const min = (min) => {
+  return (val) => {
+    if (val < min) {
+      return [`should be more or equal to ${min}`, false]
+    } else {
+      return [null, true];
+    };
+  };
+};
+
+const max = (max) => {
+  return (val) => {
+    if (val > max) {
+      return [`should be less or equal to ${max}`, false]
+    } else {
+      return [null, true];
+    };
+  };
+};
+
 // Composite or
 // Usage:
 //   let outerRange = or(minLength(10), maxLength(2));
@@ -85,6 +105,8 @@ module.exports = {
   requireInteger,
   requireString,
   present,
+  min,
+  max,
   maxLength,
   minLength,
   or,

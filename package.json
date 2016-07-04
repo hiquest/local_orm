@@ -4,7 +4,8 @@
   "description": "Tiny ORM-like wrapper on top of localStorage ",
   "main": "index.js",
   "scripts": {
-    "test": "karma start --single-run"
+    "test": "karma start --single-run",
+    "test-watch": "karma start"
   },
   "keywords": [
     "orm",
