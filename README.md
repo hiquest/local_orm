@@ -40,14 +40,29 @@ const Store = define({
 
 // Let's create a book
 let [err, book] = Store.books.create({ title: "War And Peace" });
-console.log(book); // => { id: "0326d5ce-d3db-4bf7-853f-37d4d5adf6a8", title: "War And Peace", genre: 'fiction' }
-
-// Note that we have an id now, and that genre was populated with a default value
+console.log(book);
+// => { id: "0326d5ce-d3db-4bf7-853f-37d4d5adf6a8", title: "War And Peace", genre: 'fiction' }
+// ( Note that we have an id now, and that genre was populated with a default value )
 
 // Let's try another one
-let [err, book] = Store.books.create({ year: "1993" }); // I only remember the year...
+let [err, book] = Store.books.create({ year: "1984" }); // I only remember the year...
 console.log(book); // => null
 
 // Was there some errors?
 console.log(err); // => { 'year': ['should be an integer'], 'title': ['should be present'] }
+
+// Oh, I see now...
+let [err, book] = Store.books.create({ title: "So Long, and Thanks for all the Fish", year: 1984 }); // I only remember the year...
+```
+
+We can also load books from localStorage now.
+
+```javascript
+let book = Store.books.find(id);
+
+let books = Store.books.all();
+
+let books = Store.books.where({title: 'War And Peace'});
+
+let books = Store.books.where(function(b) { return b.year > 1980 });
 ```
