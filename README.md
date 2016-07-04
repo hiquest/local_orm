@@ -10,12 +10,18 @@ Features
 * Types
 * Validations
 
+Installation
+------
+```
+npm install local_orm --save
+```
+
 Usage
-======
+------
 Define a schema (yes, we call it a schema):
 
 ```javascript
-const { define: define, types: t, validations: v } = require("../index");
+const { define: define, types: t, validations: v } = require("local_orm");
 
 const Store = define({
   name: "books_schema",
@@ -61,7 +67,7 @@ console.log(err); // => { 'year': ['should be an integer'], 'title': ['should be
 let [err, book] = Store.books.create({ title: "So Long, and Thanks for all the Fish", year: 1984 }); // I only remember the year...
 ```
 
-We can also load books from localStorage now.
+We can load books from localStorage now.
 
 ```javascript
 // Find a book by id
@@ -78,5 +84,5 @@ let books = Store.books.where(function(b) { return b.year > 1980 });
 ```
 
 Contributing
-======
+------
 Yes, please.
