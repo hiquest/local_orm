@@ -84,6 +84,32 @@ let books = Store.books.where({title: 'War And Peace'});
 let books = Store.books.where((b) => b.year > 1980);
 ```
 
+Validations
+------
+Validation is a simple plain JavaScript function that takes a value and returns an array like this one [error, valid]. Local_orm comes with several predefined validations.
+
+* `present` requires a value to be present (not undefined and not null)
+```javascript
+validations: [v.present]
+```
+
+* `min`, `max` define a range for integer types (inclusive)
+```javascript
+validations: [v.min(0), v.max(127)]
+```
+
+* `minLength`, `maxLength` define a length range for strings or arrays (really, anything that has length)
+```javascript
+validations: [v.maxLength(32)]
+```
+
+* `oneOf` require a value to be in a particular set of values (like enum)
+```javascript
+validations: [v.oneOf("sun", "moon")]
+```
+
+Also, note that when you define a type, under the curtains the corresponding validation is added to the list.
+
 Contributing
 ------
 Yes, please.
