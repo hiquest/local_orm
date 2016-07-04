@@ -1,4 +1,4 @@
-# local-orm
+# local_orm
 [![CodeShip](https://codeship.com/projects/0876cb80-2453-0134-45d7-7a46f2e0a594/status?branch=master)](https://codeship.com/projects/0876cb80-2453-0134-45d7-7a46f2e0a594/status?branch=master)
 [![Code Climate](https://codeclimate.com/github/hiquest/local_orm/badges/gpa.svg)](https://codeclimate.com/github/hiquest/local_orm)
 
