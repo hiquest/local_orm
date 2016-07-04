@@ -38,4 +38,16 @@ const Store = define({
   }
 });
 
+// Let's create a book
+let [err, book] = Store.books.create({ title: "War And Peace" });
+console.log(book); // => { id: "0326d5ce-d3db-4bf7-853f-37d4d5adf6a8", title: "War And Peace", genre: 'fiction' }
+
+// Note that we have an id now, and that genre was populated with a default value
+
+// Let's try another one
+let [err, book] = Store.books.create({ year: "1993" }); // I only remember the year...
+console.log(book); // => null
+
+// Was there some errors?
+console.log(err); // => { 'year': ['should be an integer'], 'title': ['should be present'] }
 ```
