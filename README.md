@@ -58,14 +58,14 @@ console.log(book);
 // ( Note that we have an id now, and that genre was populated with a default value )
 
 // Let's try another one
-let [err, book] = Store.books.create({ year: "1984" }); // I only remember the year...
+let [err, book] = Store.books.create({ year: "1984" });
 console.log(book); // => null
 
 // Was there some errors?
 console.log(err); // => { 'year': ['should be an integer'], 'title': ['should be present'] }
 
 // Oh, I see now...
-let [err, book] = Store.books.create({ title: "So Long, and Thanks for all the Fish", year: 1984 }); // I only remember the year...
+let [err, book] = Store.books.create({ title: "So Long, and Thanks for all the Fish", year: 1984 });
 ```
 
 We can load books from localStorage now.
