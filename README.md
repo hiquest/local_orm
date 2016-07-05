@@ -111,7 +111,7 @@ validations: [v.oneOf("sun", "moon")]
 Also, note that when you define a type, under the curtains the corresponding validation is added to the list.
 
 As noted earlier, validations are just functions, so it is easy to define your own:
-```
+```javascript
 const positive = (val) => {
   if (val > 0) {
     return [null, true];
