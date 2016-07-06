@@ -1,4 +1,4 @@
-const { validations: v } = require("../index");
+const { validations: v } = require("../src/index");
 
 describe("Validations",() => {
   describe("requireBoolean", () => {

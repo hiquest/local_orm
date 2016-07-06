@@ -1,4 +1,4 @@
-const { define: define, types: t, validations: v } = require("../index");
+const { define: define, types: t, validations: v } = require("../src/index");
 
 describe("An example store",() => {
   const Store = define({
