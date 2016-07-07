@@ -79,7 +79,7 @@ const define = ({name: name, schema: schema}) => {
 
     const create = (ent) => {
       ent.id = uuid.v1();
-      [err, valid] = validate(ent);
+      const [err, valid] = validate(ent);
       if (valid) {
         let entities = all();
         entities.push(ent);
@@ -91,7 +91,7 @@ const define = ({name: name, schema: schema}) => {
     };
 
     const update = (ent) => {
-      [err, valid] = validate(ent);
+      const [err, valid] = validate(ent);
       if (valid) {
         let entities = all();
         const ind = _.findIndex(entities, { id: ent.id });
