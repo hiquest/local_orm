@@ -157,19 +157,19 @@ describe("Composite or validation", () => {
   });
 });
 
-describe("#run", () => {
+describe("#check", () => {
   it("should work correctly", () => {
     const validations = [v.requireString, v.maxLength(10)];
 
-    let [errors, valid] = v.run(4, validations);
+    let [errors, valid] = v.check(4, validations);
     expect(valid).toBe(false);
     expect(errors.length).toBe(2);
 
-    [errors, valid] = v.run("this is a too long string", validations);
+    [errors, valid] = v.check("this is a too long string", validations);
     expect(valid).toBe(false);
     expect(errors.length).toBe(1);
 
-    [errors, valid] = v.run("pass", validations);
+    [errors, valid] = v.check("pass", validations);
     expect(errors.length).toBe(0);
   });
 });
