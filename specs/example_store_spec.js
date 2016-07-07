@@ -22,6 +22,13 @@ describe("An example store",() => {
     }
   });
 
+  describe("#build", () => {
+    it("populates model with default values", () => {
+      const book = Store.books.build();
+      expect(book).toEqual({genre: "fiction"});
+    });
+  });
+
   describe("#validate", () => {
     it("allows valid entities", () => {
       let book = { title: "War And Peace" };
@@ -54,6 +61,24 @@ describe("An example store",() => {
       expect(errors['genre']).toEqual(
         [ "should be one of [fiction,non-fiction]" ]
       );
+    });
+  });
+
+  describe("#save", () => {
+    it("refuse to save the enity if it is invalid", () => {
+      let [errors, book] = Store.books.save({});
+      expect(book).toBe(null);
+      expect(errors['title']).toEqual(
+        [ "should be present" ]
+      );
+    });
+
+    it("successfully save the entity if it is valid", () => {
+      let [errors, book] = Store.books.save({title: "Test Title"});
+      expect(book.id).toBeDefined();
+      expect(book.title).toEqual("Test Title");
+      expect(book.genre).toEqual("fiction");
+      expect(errors).toBe(null);
     });
   });
 });

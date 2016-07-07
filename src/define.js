@@ -108,6 +108,11 @@ const define = ({name: name, schema: schema}) => {
       }
     };
 
+    const build = (opts = {}) => {
+      let ent = setDefaultValues(opts);
+      return ent;
+    };
+
     const save = (oldEnt) => {
       let ent = setDefaultValues(oldEnt);
       if (ent.id) {
@@ -143,7 +148,7 @@ const define = ({name: name, schema: schema}) => {
       return _.filter(loadTable(name), filters);
     };
 
-    memo[tableName] = { save, find, destroy, all, where, validate };
+    memo[tableName] = { save, find, destroy, all, where, validate, build };
     return memo;
   }, {});
 };
