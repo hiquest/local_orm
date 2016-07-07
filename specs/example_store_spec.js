@@ -66,7 +66,9 @@ describe("An example store",() => {
 
   describe("#save", () => {
     it("refuse to save the enity if it is invalid", () => {
-      let [errors, book] = Store.books.save({});
+      let input = {}
+      let [errors, book] = Store.books.save(input);
+      expect(input).toEqual({});
       expect(book).toBe(null);
       expect(errors['title']).toEqual(
         [ "should be present" ]

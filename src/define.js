@@ -26,7 +26,8 @@ const define = ({name: name, schema: schema}) => {
 
     const all = () => loadTable(name);
 
-    const setDefaultValues = (entity) => {
+    const setDefaultValues = (oldEntity) => {
+      let entity = _.clone(oldEntity);
       fields.forEach( (k) => {
         if (!entity[k] && !_.isUndefined(tableConfig[k].defaultVal)) {
           entity[k] = tableConfig[k].defaultVal;
@@ -78,9 +79,9 @@ const define = ({name: name, schema: schema}) => {
     }
 
     const create = (ent) => {
-      ent.id = uuid.v1();
       const [err, valid] = validate(ent);
       if (valid) {
+        ent.id = uuid.v1();
         let entities = all();
         entities.push(ent);
         commitTable(name, entities);
