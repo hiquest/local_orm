@@ -83,4 +83,22 @@ describe("An example store",() => {
       expect(errors).toBe(null);
     });
   });
+
+  describe("#find", () => {
+
+    it("returns an errors if entity doesn't exist", () => {
+      let [err, ent] = Store.books.find("not-exists");
+      expect(err).toBeDefined();
+      expect(ent).toBeNull();
+    });
+
+    it("returns an entity if it exists", () => {
+      let [errors, book] = Store.books.save({title: "Test Title"});
+
+      let [err, ent] = Store.books.find(book.id);
+      expect(err).toBeNull();
+      expect(ent.title).toBe("Test Title");
+    });
+
+  });
 });
