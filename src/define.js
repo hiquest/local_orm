@@ -7,8 +7,9 @@ const v = require('./validations');
 
 const PREFIX = "LOCAL_ORM";
 
-const define = ({name: name, schema: schema}) => {
-  let table_key = (name) => `${PREFIX}_${name}`;
+const define = ({name: schemaName, schema: schema}) => {
+
+  let table_key = (table_name) => `${PREFIX}_${schemaName}_${table_name}`;
 
   const loadTable = (table_name) => {
     let s = window.localStorage[table_key(table_name)];
@@ -24,7 +25,7 @@ const define = ({name: name, schema: schema}) => {
 
     const fields = Object.keys(tableConfig);
 
-    const all = () => loadTable(name);
+    const all = () => loadTable(tableName);
 
     const setDefaultValues = (oldEntity) => {
       let entity = _.clone(oldEntity);
@@ -84,7 +85,7 @@ const define = ({name: name, schema: schema}) => {
         ent.id = uuid.v1();
         let entities = all();
         entities.push(ent);
-        commitTable(name, entities);
+        commitTable(tableName, entities);
         return [null, ent];
       } else {
         return [err, null]
@@ -98,7 +99,7 @@ const define = ({name: name, schema: schema}) => {
         const ind = _.findIndex(entities, { id: ent.id });
         if (ind > -1) {
           entities[ind] = ent;
-          commitTable(name, entities);
+          commitTable(tableName, entities);
           return [null, ent];
         } else {
           throw "Not Found";
@@ -140,7 +141,7 @@ const define = ({name: name, schema: schema}) => {
         let entities = all();
         let e = _.find(entities, { id: ent.id });
         let updatedEntities = _.without(entities, e);
-        commitTable(name, updatedEntities);
+        commitTable(tableName, updatedEntities);
         return [null, true];
       }
     };

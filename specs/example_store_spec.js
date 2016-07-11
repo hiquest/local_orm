@@ -18,8 +18,17 @@ describe("An example store",() => {
           validations: [v.present, v.oneOf('fiction', 'non-fiction')],
           defaultVal: 'fiction'
         }
+      },
+      authors: {
+        name: {
+          type: t.string,
+        }
       }
     }
+  });
+
+  beforeEach(() => {
+    window.localStorage.clear();
   });
 
   describe("#build", () => {
@@ -119,4 +128,18 @@ describe("An example store",() => {
       expect(entity).toBeNull();
     });
   });
+
+  describe("Integrity", () => {
+
+    it("don't mix up tables", () => {
+
+      [_, author] = Store.authors.save({name: "Author"});
+      [_, book] = Store.books.save({title: "Title"});
+
+      expect(Store.authors.all().length).toEqual(1);
+      expect(Store.books.all().length).toEqual(1);
+
+    });
+
+  })
 });

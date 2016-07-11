@@ -1,6 +1,6 @@
 {
   "name": "local_orm",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "Tiny ORM-like wrapper on top of localStorage ",
   "main": "./dist/index.js",
   "scripts": {
