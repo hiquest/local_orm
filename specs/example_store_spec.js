@@ -85,7 +85,6 @@ describe("An example store",() => {
   });
 
   describe("#find", () => {
-
     it("returns an errors if entity doesn't exist", () => {
       let [err, ent] = Store.books.find("not-exists");
       expect(err).toBeDefined();
@@ -99,6 +98,25 @@ describe("An example store",() => {
       expect(err).toBeNull();
       expect(ent.title).toBe("Test Title");
     });
+  });
 
+  describe("#destroy", () => {
+    it("returns an errors if entity doesn't exist", () => {
+      let [err, success] = Store.books.destroy("not-exists");
+      expect(err).toBeDefined();
+      expect(success).toBe(false);
+    });
+
+    it("deletes the entity if it exists", () => {
+      let [errors, book] = Store.books.save({title: "Test Title"});
+
+      let [err, success] = Store.books.destroy(book.id);
+      expect(err).toBeNull();
+      expect(success).toBe(true);
+
+      let [err2, entity] = Store.books.find(book.id);
+      expect(err2).toBeDefined();
+      expect(entity).toBeNull();
+    });
   });
 });

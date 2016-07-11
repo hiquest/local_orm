@@ -133,7 +133,7 @@ const define = ({name: name, schema: schema}) => {
     };
 
     const destroy = (id) => {
-      [err, ent] = find(id)
+      let [err, ent] = find(id);
       if (err) {
         return [err, false];
       } else {
