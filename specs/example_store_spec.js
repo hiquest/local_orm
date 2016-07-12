@@ -94,52 +94,74 @@ describe("An example store",() => {
   });
 
   describe("#find", () => {
-    it("returns an errors if entity doesn't exist", () => {
-      let [err, ent] = Store.books.find("not-exists");
-      expect(err).toBeDefined();
-      expect(ent).toBeNull();
+    it("throws an error if entity doesn't exist", () => {
+      expect(() => {
+        let ent = Store.books.find("not-exists");
+      }).toThrow();
     });
 
     it("returns an entity if it exists", () => {
       let [errors, book] = Store.books.save({title: "Test Title"});
-
-      let [err, ent] = Store.books.find(book.id);
-      expect(err).toBeNull();
+      let ent = Store.books.find(book.id);
       expect(ent.title).toBe("Test Title");
     });
   });
 
   describe("#destroy", () => {
-    it("returns an errors if entity doesn't exist", () => {
-      let [err, success] = Store.books.destroy("not-exists");
-      expect(err).toBeDefined();
-      expect(success).toBe(false);
+    it("throws an error if entity doesn't exist", () => {
+      expect(() => {
+        let ent = Store.books.destroy("not-exists");
+      }).toThrow();
     });
 
     it("deletes the entity if it exists", () => {
       let [errors, book] = Store.books.save({title: "Test Title"});
 
-      let [err, success] = Store.books.destroy(book.id);
-      expect(err).toBeNull();
+      let success = Store.books.destroy(book.id);
       expect(success).toBe(true);
 
-      let [err2, entity] = Store.books.find(book.id);
-      expect(err2).toBeDefined();
-      expect(entity).toBeNull();
+      let entities = Store.books.where({id: book.id});
+      expect(entities.length).toEqual(0);
+    });
+  });
+
+  describe("#where", () => {
+
+    beforeEach(() => {
+      let [e, b] = Store.books.save({year: 1996, title: "X"});
+      [e, b] = Store.books.save({year: 2005, title: "Y"});
+    });
+
+    it("loads all entities when no arguments provided", () => {
+      let books = Store.books.where();
+      expect(books.length).toEqual(2);
+    });
+
+    it("filters every item with function", () => {
+      let books = Store.books.where((x) => x.year > 2000);
+      expect(books.length).toEqual(1);
+      expect(books[0].title).toEqual('Y');
+    });
+
+    it("filters when object provided", () => {
+      let books = Store.books.where({year: 1996});
+      expect(books.length).toEqual(1);
+      expect(books[0].title).toEqual('X');
+    });
+
+    it("prevents from using not defined key when object provided", () => {
+      expect(() => {
+        let ent = Store.books.where({some: 'something'});
+      }).toThrow();
     });
   });
 
   describe("Integrity", () => {
-
     it("don't mix up tables", () => {
-
       [_, author] = Store.authors.save({name: "Author"});
       [_, book] = Store.books.save({title: "Title"});
-
       expect(Store.authors.all().length).toEqual(1);
       expect(Store.books.all().length).toEqual(1);
-
     });
-
   })
 });

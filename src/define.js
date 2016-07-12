@@ -25,7 +25,7 @@ const define = ({name: schemaName, schema: schema}) => {
 
     const fields = Object.keys(tableConfig);
 
-    const all = () => loadTable(tableName);
+    const fetchAll = () => loadTable(tableName);
 
     const setDefaultValues = (oldEntity) => {
       let entity = _.clone(oldEntity);
@@ -83,7 +83,7 @@ const define = ({name: schemaName, schema: schema}) => {
       const [err, valid] = validate(ent);
       if (valid) {
         ent.id = uuid.v1();
-        let entities = all();
+        let entities = fetchAll();
         entities.push(ent);
         commitTable(tableName, entities);
         return [null, ent];
@@ -95,14 +95,13 @@ const define = ({name: schemaName, schema: schema}) => {
     const update = (ent) => {
       const [err, valid] = validate(ent);
       if (valid) {
-        let entities = all();
+        let entities = fetchAll();
         const ind = _.findIndex(entities, { id: ent.id });
         if (ind > -1) {
           entities[ind] = ent;
           commitTable(tableName, entities);
           return [null, ent];
         } else {
-          throw "Not Found";
           return ['Not Found', null];
         }
       } else {
@@ -125,29 +124,42 @@ const define = ({name: schemaName, schema: schema}) => {
     };
 
     const find = (id) => {
-      const ent = _.find(all(), {id: id});
+      const ent = _.find(fetchAll(), {id: id});
       if (ent) {
-        return [null, ent];
+        return ent;
       } else {
-        return ["Not Found", null];
+        throw `Entity with id ${id} does not exist`;
       }
     };
 
     const destroy = (id) => {
-      let [err, ent] = find(id);
-      if (err) {
-        return [err, false];
-      } else {
-        let entities = all();
-        let e = _.find(entities, { id: ent.id });
-        let updatedEntities = _.without(entities, e);
-        commitTable(tableName, updatedEntities);
-        return [null, true];
-      }
+      let ent = find(id);
+      let entities = fetchAll();
+      let e = _.find(entities, { id: ent.id });
+      let updatedEntities = _.without(entities, e);
+      commitTable(tableName, updatedEntities);
+      return true;
     };
 
-    const where = (filters) => {
-      return _.filter(loadTable(name), filters);
+    const all = (filterWith) => {
+      return fetchAll();
+    };
+
+    const where = (filterWith) => {
+      let allFields = _.union(fields, ['id']);
+      if (_.isObject(filterWith)) {
+        let keys = Object.keys(filterWith);
+        _.each(keys, (key) => {
+          if(allFields.indexOf(key) < 0) {
+            throw `Key ${key} doesn't exists`;
+          }
+        });
+      };
+      if (!filterWith) {
+        return fetchAll();
+      } else {
+        return _.filter(fetchAll(), filterWith);
+      }
     };
 
     memo[tableName] = { save, find, destroy, all, where, validate, build };
