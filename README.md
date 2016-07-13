@@ -84,6 +84,28 @@ let books = Store.books.where({title: 'War And Peace'});
 let books = Store.books.where((b) => b.year > 1980);
 ```
 
+Store API
+------
+* `build` builds a new entity with set default values. Returns a new `entity`
+
+* `validate` validates an entity. Returns an array `[errors, isValid]`, where errors is an object like this one:
+```javascript
+{
+  "title": [ "should be present", "should have more than 5 characters" ],
+  "year": [ "should be less of equal to 2999" ]
+}
+```
+
+* `save` creates a new entity or updates the existing one (if it has an id). Returns an array `[errors, entity]`
+
+* `find` finds an entity by id. Throws an error if it does not exist. Returns an `entity`
+
+* `destroy` destroys an entity by id. Throws an error if it does not exist. Returns `true`
+
+* `all` loads all entities. Returns an `array of entities`
+
+* `where` filters out entities. Accepts `object` or `function`. Returns an `array of entities`
+
 Validations
 ------
 Validation is a simple plain JavaScript function that takes a value and returns an array like this one [error, valid]. Local_orm comes with several predefined validations.
