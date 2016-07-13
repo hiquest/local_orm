@@ -17,11 +17,16 @@ describe("An example store",() => {
           type: t.string,
           validations: [v.present, v.oneOf('fiction', 'non-fiction')],
           defaultVal: 'fiction'
+        },
+        readersCount: {
+          type: t.integer,
+          validations: [v.present],
+          defaultVal: () => 0
         }
       },
       authors: {
         name: {
-          type: t.string,
+          type: t.string
         }
       }
     }
@@ -34,7 +39,8 @@ describe("An example store",() => {
   describe("#build", () => {
     it("populates model with default values", () => {
       const book = Store.books.build();
-      expect(book).toEqual({genre: "fiction"});
+      expect(book.genre).toEqual("fiction");
+      expect(book.readersCount).toEqual(0);
     });
   });
 
@@ -126,7 +132,6 @@ describe("An example store",() => {
   });
 
   describe("#where", () => {
-
     beforeEach(() => {
       let [e, b] = Store.books.save({year: 1996, title: "X"});
       [e, b] = Store.books.save({year: 2005, title: "Y"});

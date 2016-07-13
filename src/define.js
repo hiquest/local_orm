@@ -31,7 +31,8 @@ const define = ({name: schemaName, schema: schema}) => {
       let entity = _.clone(oldEntity);
       fields.forEach( (k) => {
         if (!entity[k] && !_.isUndefined(tableConfig[k].defaultVal)) {
-          entity[k] = tableConfig[k].defaultVal;
+          let dv = tableConfig[k].defaultVal;
+          entity[k] = _.isFunction(dv) ? dv() : dv
         };
       });
       return entity;
