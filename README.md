@@ -140,4 +140,4 @@ validations: [ positive ]
 
 Contributing
 ------
-Yes, please.
+Feel free to fork, add features and send pull requests. Please make sure to add corresponding tests.
