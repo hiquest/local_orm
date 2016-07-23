@@ -14,7 +14,7 @@ module.exports = function(config) {
       transform: [],
       extensions: ['.js']
     },
-    reporters: ['progress'],
+    reporters: ['spec'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
