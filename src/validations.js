@@ -15,7 +15,14 @@ const wrap = (fn, err) => {
 
 const requireBoolean = wrap(_.isBoolean, "should be a boolean");
 const requireString  = wrap(_.isString, "should be a string");
-const requireInteger = wrap(Number.isInteger, "should be an integer");
+
+const isInt = (value) => {
+  return typeof value === "number" &&
+    isFinite(value) &&
+    Math.floor(value) === value;
+};
+
+const requireInteger = wrap(isInt, "should be an integer");
 
 const present = (val) => {
   if (_.isUndefined(val) || _.isNull(val)) {
